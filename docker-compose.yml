@@ -13,5 +13,19 @@ services:
       && chmod 0700 /mosquitto/config/passwordfile
       && mosquitto -c /mosquitto/config/mosquitto.conf"
 
+  sensor_1:
+    build: ./sensor
+    container_name: sensor-01
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensore1
+      MQTT_TOPIC: stanza/sensore1/temperatura
+      SEND_INTERVAL: 5
+    depends_on:
+      - mosquitto
+
 volumes:
   mosquitto_data:
