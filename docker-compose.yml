@@ -1,1 +1,17 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mqtt-broker
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto:/mosquitto/config
+      - mosquitto_data:/mosquitto/data
+    command: >
+      sh -c "rm -f /mosquitto/config/passwordfile
+      && mosquitto_passwd -b -c /mosquitto/config/passwordfile melissio mqtt123
+      && chmod 0700 /mosquitto/config/passwordfile
+      && mosquitto -c /mosquitto/config/mosquitto.conf"
 
+volumes:
+  mosquitto_data:
