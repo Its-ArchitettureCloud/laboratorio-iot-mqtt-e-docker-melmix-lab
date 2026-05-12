@@ -27,5 +27,131 @@ services:
     depends_on:
       - mosquitto
 
+  sensor_2:
+    build: ./sensor
+    container_name: sensor-02
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensore2
+      MQTT_TOPIC: stanza/sensore2/temperatura
+      SEND_INTERVAL: 6
+    depends_on:
+      - mosquitto
+
+  sensor_3:
+    build: ./sensor
+    container_name: sensor-03
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensore3
+      MQTT_TOPIC: stanza/sensore3/temperatura
+      SEND_INTERVAL: 7
+    depends_on:
+      - mosquitto
+
+  sensor_4:
+    build: ./sensor
+    container_name: sensor-04
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensore4
+      MQTT_TOPIC: stanza/sensore4/temperatura
+      SEND_INTERVAL: 8
+    depends_on:
+      - mosquitto
+
+  sensor_5:
+    build: ./sensor
+    container_name: sensor-05
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensore5
+      MQTT_TOPIC: stanza/sensore5/temperatura
+      SEND_INTERVAL: 9
+    depends_on:
+      - mosquitto
+
+  sensor_6:
+    build: ./sensor
+    container_name: sensor-06
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensore6
+      MQTT_TOPIC: stanza/sensore6/temperatura
+      SEND_INTERVAL: 10
+    depends_on:
+      - mosquitto
+
+  sensor_7:
+    build: ./sensor
+    container_name: sensor-07
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensore7
+      MQTT_TOPIC: stanza/sensore7/temperatura
+      SEND_INTERVAL: 11
+    depends_on:
+      - mosquitto
+
+  sensor_8:
+    build: ./sensor
+    container_name: sensor-08
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensore8
+      MQTT_TOPIC: stanza/sensore8/temperatura
+      SEND_INTERVAL: 12
+    depends_on:
+      - mosquitto
+
+  sensor_9:
+    build: ./sensor
+    container_name: sensor-09
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensore9
+      MQTT_TOPIC: stanza/sensore9/temperatura
+      SEND_INTERVAL: 13
+    depends_on:
+      - mosquitto
+
+  sensor_10:
+    build: ./sensor
+    container_name: sensor-10
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensore10
+      MQTT_TOPIC: stanza/sensore10/temperatura
+      SEND_INTERVAL: 14
+    depends_on:
+      - mosquitto
+
 volumes:
   mosquitto_data:
