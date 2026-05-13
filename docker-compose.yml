@@ -21,8 +21,8 @@ services:
       MQTT_PORT: 1883
       MQTT_USERNAME: melissio
       MQTT_PASSWORD: mqtt123
-      SENSOR_ID: sensore1
-      MQTT_TOPIC: stanza/sensore1/temperatura
+      SENSOR_ID: sensor01
+      MQTT_TOPIC: iot/aula/sensor01/temperatura
       SEND_INTERVAL: 5
     depends_on:
       - mosquitto
@@ -35,8 +35,8 @@ services:
       MQTT_PORT: 1883
       MQTT_USERNAME: melissio
       MQTT_PASSWORD: mqtt123
-      SENSOR_ID: sensore2
-      MQTT_TOPIC: stanza/sensore2/temperatura
+      SENSOR_ID: sensor02
+      MQTT_TOPIC: iot/aula/sensor02/temperatura
       SEND_INTERVAL: 6
     depends_on:
       - mosquitto
@@ -49,8 +49,8 @@ services:
       MQTT_PORT: 1883
       MQTT_USERNAME: melissio
       MQTT_PASSWORD: mqtt123
-      SENSOR_ID: sensore3
-      MQTT_TOPIC: stanza/sensore3/temperatura
+      SENSOR_ID: sensor03
+      MQTT_TOPIC: iot/aula/sensor03/temperatura
       SEND_INTERVAL: 7
     depends_on:
       - mosquitto
@@ -63,8 +63,8 @@ services:
       MQTT_PORT: 1883
       MQTT_USERNAME: melissio
       MQTT_PASSWORD: mqtt123
-      SENSOR_ID: sensore4
-      MQTT_TOPIC: stanza/sensore4/temperatura
+      SENSOR_ID: sensor04
+      MQTT_TOPIC: iot/aula/sensor04/temperatura
       SEND_INTERVAL: 8
     depends_on:
       - mosquitto
@@ -77,8 +77,8 @@ services:
       MQTT_PORT: 1883
       MQTT_USERNAME: melissio
       MQTT_PASSWORD: mqtt123
-      SENSOR_ID: sensore5
-      MQTT_TOPIC: stanza/sensore5/temperatura
+      SENSOR_ID: sensor05
+      MQTT_TOPIC: iot/aula/sensor05/temperatura
       SEND_INTERVAL: 9
     depends_on:
       - mosquitto
@@ -91,8 +91,8 @@ services:
       MQTT_PORT: 1883
       MQTT_USERNAME: melissio
       MQTT_PASSWORD: mqtt123
-      SENSOR_ID: sensore6
-      MQTT_TOPIC: stanza/sensore6/temperatura
+      SENSOR_ID: sensor06
+      MQTT_TOPIC: iot/aula/sensor06/temperatura
       SEND_INTERVAL: 10
     depends_on:
       - mosquitto
@@ -105,8 +105,8 @@ services:
       MQTT_PORT: 1883
       MQTT_USERNAME: melissio
       MQTT_PASSWORD: mqtt123
-      SENSOR_ID: sensore7
-      MQTT_TOPIC: stanza/sensore7/temperatura
+      SENSOR_ID: sensor07
+      MQTT_TOPIC: iot/aula/sensor07/temperatura
       SEND_INTERVAL: 11
     depends_on:
       - mosquitto
@@ -119,8 +119,8 @@ services:
       MQTT_PORT: 1883
       MQTT_USERNAME: melissio
       MQTT_PASSWORD: mqtt123
-      SENSOR_ID: sensore8
-      MQTT_TOPIC: stanza/sensore8/temperatura
+      SENSOR_ID: sensor08
+      MQTT_TOPIC: iot/aula/sensor08/temperatura
       SEND_INTERVAL: 12
     depends_on:
       - mosquitto
@@ -133,8 +133,8 @@ services:
       MQTT_PORT: 1883
       MQTT_USERNAME: melissio
       MQTT_PASSWORD: mqtt123
-      SENSOR_ID: sensore9
-      MQTT_TOPIC: stanza/sensore9/temperatura
+      SENSOR_ID: sensor09
+      MQTT_TOPIC: iot/aula/sensor09/temperatura
       SEND_INTERVAL: 13
     depends_on:
       - mosquitto
@@ -147,8 +147,8 @@ services:
       MQTT_PORT: 1883
       MQTT_USERNAME: melissio
       MQTT_PASSWORD: mqtt123
-      SENSOR_ID: sensore10
-      MQTT_TOPIC: stanza/sensore10/temperatura
+      SENSOR_ID: sensor10
+      MQTT_TOPIC: iot/aula/sensor10/temperatura
       SEND_INTERVAL: 14
     depends_on:
       - mosquitto
@@ -164,14 +164,12 @@ services:
       - mosquitto
       - mailhog
 
-
-
   mailhog:
     image: mailhog/mailhog:latest
     container_name: mailhog
     ports:
       - "1025:1025"
-      - "8025:8025"    
+      - "8025:8025"
 
 volumes:
   mosquitto_data:

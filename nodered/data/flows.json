@@ -42,8 +42,8 @@
         "id": "c1871e9a31306cf1",
         "type": "mqtt in",
         "z": "705f28228aad9571",
-        "name": "",
-        "topic": "stanza/+/temperatura",
+        "name": "temperature MQTT in",
+        "topic": "iot/aula/+/temperatura",
         "qos": "0",
         "datatype": "auto-detect",
         "broker": "c376e76f25116b77",
@@ -56,7 +56,8 @@
         "wires": [
             [
                 "66911bbc914c8f5a",
-                "38fc41468f7ebc82"
+                "38fc41468f7ebc82",
+                "f2f6f197b88a1001"
             ]
         ]
     },
@@ -64,7 +65,7 @@
         "id": "66911bbc914c8f5a",
         "type": "debug",
         "z": "705f28228aad9571",
-        "name": "debug 1",
+        "name": "debug temperature payload",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -166,5 +167,158 @@
         "x": 830,
         "y": 400,
         "wires": []
+    },
+    {
+        "id": "f2f6f197b88a1001",
+        "type": "function",
+        "z": "705f28228aad9571",
+        "name": "build dashboard table",
+        "func": "const payload = msg.payload || {};\nconst parts = (msg.topic || '').split('/');\nconst sensorFromTopic = parts.length >= 4 ? parts[2] : undefined;\nconst sensorId = payload.sensore || sensorFromTopic;\n\nif (!sensorId || typeof payload.temperatura === 'undefined') {\n    return null;\n}\n\nconst readings = flow.get('sensorReadings') || {};\nreadings[sensorId] = {\n    sensore: sensorId,\n    temperatura: Number(payload.temperatura).toFixed(1),\n    unita: payload.unita || 'C',\n    topic: msg.topic,\n    aggiornato: payload.timestamp || new Date().toISOString()\n};\nflow.set('sensorReadings', readings);\n\nmsg.payload = Object.values(readings).sort((a, b) => a.sensore.localeCompare(b.sensore));\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 300,
+        "wires": [
+            [
+                "d7f4f1a821a30001"
+            ]
+        ]
+    },
+    {
+        "id": "d7f4f1a821a30001",
+        "type": "ui-table",
+        "z": "705f28228aad9571",
+        "group": "7dbe703500000003",
+        "name": "temperature table",
+        "label": "Temperature sensori IoT",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "maxrows": 10,
+        "passthru": false,
+        "autocols": false,
+        "showSearch": false,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [
+            {
+                "title": "Sensore",
+                "key": "sensore",
+                "type": "text"
+            },
+            {
+                "title": "Temperatura",
+                "key": "temperatura",
+                "type": "text"
+            },
+            {
+                "title": "Unita",
+                "key": "unita",
+                "type": "text"
+            },
+            {
+                "title": "Aggiornato",
+                "key": "aggiornato",
+                "type": "text"
+            }
+        ],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 730,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7dbe703500000001",
+        "type": "ui-base",
+        "name": "IoT Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "showPageTitle": true,
+        "navigationStyle": "default",
+        "titleBarStyle": "default"
+    },
+    {
+        "id": "7dbe703500000002",
+        "type": "ui-page",
+        "name": "Aula IoT",
+        "ui": "7dbe703500000001",
+        "path": "/aula-iot",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "7dbe703500000004",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "7dbe703500000003",
+        "type": "ui-group",
+        "name": "Sensori temperatura",
+        "page": "7dbe703500000002",
+        "width": 12,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default"
+    },
+    {
+        "id": "7dbe703500000004",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
     }
 ]
