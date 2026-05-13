@@ -55,7 +55,8 @@
         "y": 220,
         "wires": [
             [
-                "66911bbc914c8f5a"
+                "66911bbc914c8f5a",
+                "38fc41468f7ebc82"
             ]
         ]
     },
@@ -74,6 +75,96 @@
         "statusType": "auto",
         "x": 480,
         "y": 220,
+        "wires": []
+    },
+    {
+        "id": "38fc41468f7ebc82",
+        "type": "switch",
+        "z": "705f28228aad9571",
+        "name": "",
+        "property": "payload.temperatura",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "30",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 370,
+        "y": 400,
+        "wires": [
+            [
+                "931826205383495f"
+            ]
+        ]
+    },
+    {
+        "id": "931826205383495f",
+        "type": "change",
+        "z": "705f28228aad9571",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Allarme temperatura alta",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "to",
+                "pt": "msg",
+                "to": "docente@example.com",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "from",
+                "pt": "msg",
+                "to": "nodered@example.com",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "Temperatura superiore a 30 gradi rilevata da sensore IoT",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 580,
+        "y": 400,
+        "wires": [
+            [
+                "24f4bcc8254244ec"
+            ]
+        ]
+    },
+    {
+        "id": "24f4bcc8254244ec",
+        "type": "e-mail",
+        "z": "705f28228aad9571",
+        "server": "mailhog",
+        "port": "1025",
+        "authtype": "NONE",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": false,
+        "tls": false,
+        "name": "",
+        "dname": "",
+        "x": 830,
+        "y": 400,
         "wires": []
     }
 ]

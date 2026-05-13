@@ -221,3 +221,6 @@ mosquitto/passwordfile
 
 nodered/data/.config.*
 nodered/data/*.backup
+
+nodered/data/.npm/
+nodered/data/node_modules/
