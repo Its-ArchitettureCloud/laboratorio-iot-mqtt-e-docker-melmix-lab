@@ -163,6 +163,107 @@ services:
     depends_on:
       - mosquitto
       - mailhog
+      - influxdb
+
+  sensor_http_1:
+    build: ./http-sensor
+    container_name: sensor-http-01
+    environment:
+      SENSOR_ID: sensor-http-01
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 5
+    depends_on:
+      - nodered
+
+  sensor_http_2:
+    build: ./http-sensor
+    container_name: sensor-http-02
+    environment:
+      SENSOR_ID: sensor-http-02
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 6
+    depends_on:
+      - nodered
+
+  sensor_http_3:
+    build: ./http-sensor
+    container_name: sensor-http-03
+    environment:
+      SENSOR_ID: sensor-http-03
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 7
+    depends_on:
+      - nodered
+
+  sensor_http_4:
+    build: ./http-sensor
+    container_name: sensor-http-04
+    environment:
+      SENSOR_ID: sensor-http-04
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 8
+    depends_on:
+      - nodered
+
+  sensor_http_5:
+    build: ./http-sensor
+    container_name: sensor-http-05
+    environment:
+      SENSOR_ID: sensor-http-05
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 9
+    depends_on:
+      - nodered
+
+  sensor_http_6:
+    build: ./http-sensor
+    container_name: sensor-http-06
+    environment:
+      SENSOR_ID: sensor-http-06
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 10
+    depends_on:
+      - nodered
+
+  sensor_http_7:
+    build: ./http-sensor
+    container_name: sensor-http-07
+    environment:
+      SENSOR_ID: sensor-http-07
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 11
+    depends_on:
+      - nodered
+
+  sensor_http_8:
+    build: ./http-sensor
+    container_name: sensor-http-08
+    environment:
+      SENSOR_ID: sensor-http-08
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 12
+    depends_on:
+      - nodered
+
+  sensor_http_9:
+    build: ./http-sensor
+    container_name: sensor-http-09
+    environment:
+      SENSOR_ID: sensor-http-09
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 13
+    depends_on:
+      - nodered
+
+  sensor_http_10:
+    build: ./http-sensor
+    container_name: sensor-http-10
+    environment:
+      SENSOR_ID: sensor-http-10
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 14
+    depends_on:
+      - nodered
 
   mailhog:
     image: mailhog/mailhog:latest
@@ -171,5 +272,21 @@ services:
       - "1025:1025"
       - "8025:8025"
 
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: melissio
+      DOCKER_INFLUXDB_INIT_PASSWORD: influx12345
+      DOCKER_INFLUXDB_INIT_ORG: its
+      DOCKER_INFLUXDB_INIT_BUCKET: iot
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: its-iot-token
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+
 volumes:
   mosquitto_data:
+  influxdb_data:

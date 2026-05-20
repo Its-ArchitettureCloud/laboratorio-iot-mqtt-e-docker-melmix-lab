@@ -224,3 +224,4 @@ nodered/data/*.backup
 
 nodered/data/.npm/
 nodered/data/node_modules/
+.webui_secret_key
