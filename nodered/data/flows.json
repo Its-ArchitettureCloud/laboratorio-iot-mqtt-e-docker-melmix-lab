@@ -1,0 +1,508 @@
+[
+    {
+        "id": "705f28228aad9571",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c376e76f25116b77",
+        "type": "mqtt-broker",
+        "name": "mosquitto",
+        "broker": "mosquitto",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "7dbe703500000001",
+        "type": "ui-base",
+        "name": "IoT Dashboard",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "navigationStyle": "default",
+        "titleBarStyle": "default"
+    },
+    {
+        "id": "7dbe703500000004",
+        "type": "ui-theme",
+        "name": "Default Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#eeeeee",
+            "groupBg": "#ffffff",
+            "groupOutline": "#cccccc"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "4px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "7dbe703500000002",
+        "type": "ui-page",
+        "name": "Aula IoT",
+        "ui": "7dbe703500000001",
+        "path": "/aula-iot",
+        "icon": "home",
+        "layout": "grid",
+        "theme": "7dbe703500000004",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": 0,
+                "cols": 3
+            },
+            {
+                "name": "Tablet",
+                "px": 576,
+                "cols": 6
+            },
+            {
+                "name": "Small Desktop",
+                "px": 768,
+                "cols": 9
+            },
+            {
+                "name": "Desktop",
+                "px": 1024,
+                "cols": 12
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": true,
+        "disabled": false
+    },
+    {
+        "id": "7dbe703500000003",
+        "type": "ui-group",
+        "name": "Sensori temperatura",
+        "page": "7dbe703500000002",
+        "width": 12,
+        "height": 1,
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": true,
+        "disabled": false,
+        "groupType": "default"
+    },
+    {
+        "id": "15858a7472af4132",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": 8086,
+        "protocol": "http",
+        "database": "database",
+        "name": "InfluxDB",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://influxdb:8086",
+        "timeout": 10,
+        "rejectUnauthorized": false
+    },
+    {
+        "id": "c1871e9a31306cf1",
+        "type": "mqtt in",
+        "z": "705f28228aad9571",
+        "name": "temperature MQTT in",
+        "topic": "iot/aula/+/temperatura",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "c376e76f25116b77",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 100,
+        "y": 240,
+        "wires": [
+            [
+                "b0859535fb750d35"
+            ]
+        ]
+    },
+    {
+        "id": "66911bbc914c8f5a",
+        "type": "debug",
+        "z": "705f28228aad9571",
+        "name": "debug temperature payload",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 960,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "38fc41468f7ebc82",
+        "type": "switch",
+        "z": "705f28228aad9571",
+        "name": "temperatura > 30",
+        "property": "payload.temperatura",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "gt",
+                "v": "30",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 770,
+        "y": 280,
+        "wires": [
+            [
+                "c6f4d4f2b8a90001"
+            ]
+        ]
+    },
+    {
+        "id": "931826205383495f",
+        "type": "change",
+        "z": "705f28228aad9571",
+        "name": "Testo email alert",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "Allarme temperatura alta",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "to",
+                "pt": "msg",
+                "to": "docente@example.com",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "from",
+                "pt": "msg",
+                "to": "nodered@example.com",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "\"Temperatura alta rilevata: \" & payload.temperatura & \" C - sensore: \" & payload.sensore & \" - protocollo: \" & payload.protocollo",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1190,
+        "y": 360,
+        "wires": [
+            [
+                "24f4bcc8254244ec"
+            ]
+        ]
+    },
+    {
+        "id": "24f4bcc8254244ec",
+        "type": "e-mail",
+        "z": "705f28228aad9571",
+        "server": "mailhog",
+        "port": "1025",
+        "authtype": "NONE",
+        "saslformat": true,
+        "token": "oauth2Response.access_token",
+        "secure": false,
+        "tls": false,
+        "name": "MailHog alert",
+        "dname": "",
+        "x": 1400,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "f2f6f197b88a1001",
+        "type": "function",
+        "z": "705f28228aad9571",
+        "name": "build dashboard table",
+        "func": "const payload = msg.payload || {};\nconst sensorId = payload.sensore;\n\nif (!sensorId || typeof payload.temperatura === \"undefined\") {\n    return null;\n}\n\nconst readings = flow.get(\"sensorReadings\") || {};\n\nreadings[sensorId] = {\n    sensore: sensorId,\n    temperatura: Number(payload.temperatura).toFixed(1),\n    unita: payload.unita || \"C\",\n    protocollo: payload.protocollo || \"n/d\",\n    latency_ms: Number.isFinite(Number(payload.latency_ms))\n    ? Math.max(0, Math.round(Number(payload.latency_ms)))\n    : 0,\n    aggiornato: payload.timestamp || new Date().toISOString()\n};\n\nflow.set(\"sensorReadings\", readings);\n\nmsg.payload = Object.values(readings).sort((a, b) =>\n    a.sensore.localeCompare(b.sensore)\n);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1420,
+        "y": 240,
+        "wires": [
+            [
+                "d7f4f1a821a30001"
+            ]
+        ]
+    },
+    {
+        "id": "d7f4f1a821a30001",
+        "type": "ui-table",
+        "z": "705f28228aad9571",
+        "group": "7dbe703500000003",
+        "name": "temperature table",
+        "label": "Temperature sensori IoT",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "maxrows": "25",
+        "passthru": false,
+        "autocols": false,
+        "showSearch": false,
+        "deselect": true,
+        "selectionType": "none",
+        "columns": [
+            {
+                "title": "Sensore",
+                "key": "sensore",
+                "keyType": "key",
+                "type": "text",
+                "width": ""
+            },
+            {
+                "title": "Temperatura",
+                "key": "temperatura",
+                "keyType": "key",
+                "type": "text",
+                "width": ""
+            },
+            {
+                "title": "Unita",
+                "key": "unita",
+                "keyType": "key",
+                "type": "text",
+                "width": ""
+            },
+            {
+                "title": "Protocollo",
+                "key": "protocollo",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Latenza ms",
+                "key": "latency_ms",
+                "keyType": "key",
+                "type": "text",
+                "width": "",
+                "align": "start"
+            },
+            {
+                "title": "Aggiornato",
+                "key": "aggiornato",
+                "keyType": "key",
+                "type": "text",
+                "width": ""
+            }
+        ],
+        "mobileBreakpoint": "sm",
+        "mobileBreakpointType": "defaults",
+        "action": "replace",
+        "className": "",
+        "x": 1410,
+        "y": 460,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5559d52b0666491a",
+        "type": "http in",
+        "z": "705f28228aad9571",
+        "name": "",
+        "url": "/sensor",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 600,
+        "wires": [
+            [
+                "f345ca03fc1cd52b"
+            ]
+        ]
+    },
+    {
+        "id": "f345ca03fc1cd52b",
+        "type": "json",
+        "z": "705f28228aad9571",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 310,
+        "y": 600,
+        "wires": [
+            [
+                "ecddd05c42f9629e"
+            ]
+        ]
+    },
+    {
+        "id": "ecddd05c42f9629e",
+        "type": "function",
+        "z": "705f28228aad9571",
+        "name": "Normalizza HTTP",
+        "func": "const now = Date.now();\nconst payload = msg.payload || {};\n\nconst timestamp = payload.timestamp || payload.sent_at || new Date().toISOString();\nconst sentAt = Date.parse(payload.sent_at || timestamp);\nconst latency = Number.isFinite(sentAt) ? now - sentAt : 0;\n\nmsg.payload = {\n    sensore: payload.sensore || payload.sensor_id || \"http-unknown\",\n    temperatura: Number(payload.temperatura),\n    unita: payload.unita || \"C\",\n    protocollo: \"http\",\n    timestamp,\n    latency_ms: latency\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 600,
+        "wires": [
+            [
+                "92223ef1b5743ae7",
+                "f2f6f197b88a1001",
+                "17cac7c9060b1a56"
+            ]
+        ]
+    },
+    {
+        "id": "92223ef1b5743ae7",
+        "type": "http response",
+        "z": "705f28228aad9571",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 1170,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "b0859535fb750d35",
+        "type": "function",
+        "z": "705f28228aad9571",
+        "name": "Normalizza MQTT",
+        "func": "const now = Date.now();\nconst payload = msg.payload || {};\nconst parts = (msg.topic || \"\").split(\"/\");\nconst sensorFromTopic = parts.length >= 4 ? parts[2] : undefined;\n\nconst timestamp = payload.timestamp || new Date().toISOString();\nconst sentAt = Date.parse(timestamp);\nconst latency = Number.isFinite(sentAt) ? now - sentAt : 0;\n\nmsg.payload = {\n    sensore: payload.sensore || sensorFromTopic || \"mqtt-unknown\",\n    temperatura: Number(payload.temperatura),\n    unita: payload.unita || \"C\",\n    protocollo: \"mqtt\",\n    timestamp,\n    latency_ms: latency\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 240,
+        "wires": [
+            [
+                "66911bbc914c8f5a",
+                "f2f6f197b88a1001",
+                "38fc41468f7ebc82",
+                "17cac7c9060b1a56"
+            ]
+        ]
+    },
+    {
+        "id": "17cac7c9060b1a56",
+        "type": "function",
+        "z": "705f28228aad9571",
+        "name": "Prepara InfluxDB",
+        "func": "const payload = msg.payload || {};\n\nif (!payload.sensore || typeof payload.temperatura === \"undefined\") {\n    return null;\n}\n\nmsg.measurement = \"temperatura\";\n\nmsg.payload = [\n    {\n        valore: Number(payload.temperatura),\n        latency_ms: Number.isFinite(Number(payload.latency_ms))\n            ? Math.max(0, Math.round(Number(payload.latency_ms)))\n            : 0\n    },\n    {\n        sensore: payload.sensore,\n        protocollo: payload.protocollo || \"n/d\"\n    }\n];\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 420,
+        "wires": [
+            [
+                "adfd51bd7223755d"
+            ]
+        ]
+    },
+    {
+        "id": "adfd51bd7223755d",
+        "type": "influxdb out",
+        "z": "705f28228aad9571",
+        "influxdb": "15858a7472af4132",
+        "name": "influxdb out",
+        "measurement": "temperatura",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "its",
+        "bucket": "iot",
+        "x": 1370,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "c6f4d4f2b8a90001",
+        "type": "function",
+        "z": "705f28228aad9571",
+        "name": "Cooldown alert 5 minuti",
+        "func": "const payload = msg.payload || {};\nconst sensorId = payload.sensore || msg.topic || \"unknown\";\nconst now = Date.now();\nconst cooldownMs = 5 * 60 * 1000;\nconst alerts = flow.get(\"lastTemperatureAlerts\") || {};\nconst lastAlert = alerts[sensorId] || 0;\n\nif (now - lastAlert < cooldownMs) {\n    return null;\n}\n\nalerts[sensorId] = now;\nflow.set(\"lastTemperatureAlerts\", alerts);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 360,
+        "wires": [
+            [
+                "931826205383495f"
+            ]
+        ]
+    }
+]

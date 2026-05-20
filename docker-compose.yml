@@ -1,1 +1,292 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: mqtt-broker
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto:/mosquitto/config
+      - mosquitto_data:/mosquitto/data
+    command: >
+      sh -c "rm -f /mosquitto/config/passwordfile
+      && mosquitto_passwd -b -c /mosquitto/config/passwordfile melissio mqtt123
+      && chmod 0700 /mosquitto/config/passwordfile
+      && mosquitto -c /mosquitto/config/mosquitto.conf"
 
+  sensor_1:
+    build: ./sensor
+    container_name: sensor-01
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensor01
+      MQTT_TOPIC: iot/aula/sensor01/temperatura
+      SEND_INTERVAL: 5
+    depends_on:
+      - mosquitto
+
+  sensor_2:
+    build: ./sensor
+    container_name: sensor-02
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensor02
+      MQTT_TOPIC: iot/aula/sensor02/temperatura
+      SEND_INTERVAL: 6
+    depends_on:
+      - mosquitto
+
+  sensor_3:
+    build: ./sensor
+    container_name: sensor-03
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensor03
+      MQTT_TOPIC: iot/aula/sensor03/temperatura
+      SEND_INTERVAL: 7
+    depends_on:
+      - mosquitto
+
+  sensor_4:
+    build: ./sensor
+    container_name: sensor-04
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensor04
+      MQTT_TOPIC: iot/aula/sensor04/temperatura
+      SEND_INTERVAL: 8
+    depends_on:
+      - mosquitto
+
+  sensor_5:
+    build: ./sensor
+    container_name: sensor-05
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensor05
+      MQTT_TOPIC: iot/aula/sensor05/temperatura
+      SEND_INTERVAL: 9
+    depends_on:
+      - mosquitto
+
+  sensor_6:
+    build: ./sensor
+    container_name: sensor-06
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensor06
+      MQTT_TOPIC: iot/aula/sensor06/temperatura
+      SEND_INTERVAL: 10
+    depends_on:
+      - mosquitto
+
+  sensor_7:
+    build: ./sensor
+    container_name: sensor-07
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensor07
+      MQTT_TOPIC: iot/aula/sensor07/temperatura
+      SEND_INTERVAL: 11
+    depends_on:
+      - mosquitto
+
+  sensor_8:
+    build: ./sensor
+    container_name: sensor-08
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensor08
+      MQTT_TOPIC: iot/aula/sensor08/temperatura
+      SEND_INTERVAL: 12
+    depends_on:
+      - mosquitto
+
+  sensor_9:
+    build: ./sensor
+    container_name: sensor-09
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensor09
+      MQTT_TOPIC: iot/aula/sensor09/temperatura
+      SEND_INTERVAL: 13
+    depends_on:
+      - mosquitto
+
+  sensor_10:
+    build: ./sensor
+    container_name: sensor-10
+    environment:
+      MQTT_BROKER: mosquitto
+      MQTT_PORT: 1883
+      MQTT_USERNAME: melissio
+      MQTT_PASSWORD: mqtt123
+      SENSOR_ID: sensor10
+      MQTT_TOPIC: iot/aula/sensor10/temperatura
+      SEND_INTERVAL: 14
+    depends_on:
+      - mosquitto
+
+  nodered:
+    image: nodered/node-red:latest
+    container_name: node-red
+    ports:
+      - "1880:1880"
+    volumes:
+      - ./nodered/data:/data
+    depends_on:
+      - mosquitto
+      - mailhog
+      - influxdb
+
+  sensor_http_1:
+    build: ./http-sensor
+    container_name: sensor-http-01
+    environment:
+      SENSOR_ID: sensor-http-01
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 5
+    depends_on:
+      - nodered
+
+  sensor_http_2:
+    build: ./http-sensor
+    container_name: sensor-http-02
+    environment:
+      SENSOR_ID: sensor-http-02
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 6
+    depends_on:
+      - nodered
+
+  sensor_http_3:
+    build: ./http-sensor
+    container_name: sensor-http-03
+    environment:
+      SENSOR_ID: sensor-http-03
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 7
+    depends_on:
+      - nodered
+
+  sensor_http_4:
+    build: ./http-sensor
+    container_name: sensor-http-04
+    environment:
+      SENSOR_ID: sensor-http-04
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 8
+    depends_on:
+      - nodered
+
+  sensor_http_5:
+    build: ./http-sensor
+    container_name: sensor-http-05
+    environment:
+      SENSOR_ID: sensor-http-05
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 9
+    depends_on:
+      - nodered
+
+  sensor_http_6:
+    build: ./http-sensor
+    container_name: sensor-http-06
+    environment:
+      SENSOR_ID: sensor-http-06
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 10
+    depends_on:
+      - nodered
+
+  sensor_http_7:
+    build: ./http-sensor
+    container_name: sensor-http-07
+    environment:
+      SENSOR_ID: sensor-http-07
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 11
+    depends_on:
+      - nodered
+
+  sensor_http_8:
+    build: ./http-sensor
+    container_name: sensor-http-08
+    environment:
+      SENSOR_ID: sensor-http-08
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 12
+    depends_on:
+      - nodered
+
+  sensor_http_9:
+    build: ./http-sensor
+    container_name: sensor-http-09
+    environment:
+      SENSOR_ID: sensor-http-09
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 13
+    depends_on:
+      - nodered
+
+  sensor_http_10:
+    build: ./http-sensor
+    container_name: sensor-http-10
+    environment:
+      SENSOR_ID: sensor-http-10
+      TARGET_URL: http://nodered:1880/sensor
+      SEND_INTERVAL: 14
+    depends_on:
+      - nodered
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: melissio
+      DOCKER_INFLUXDB_INIT_PASSWORD: influx12345
+      DOCKER_INFLUXDB_INIT_ORG: its
+      DOCKER_INFLUXDB_INIT_BUCKET: iot
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: its-iot-token
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+
+volumes:
+  mosquitto_data:
+  influxdb_data:
